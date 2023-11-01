@@ -1,5 +1,6 @@
 <template>
-<v-btn block rounded="xl" size="x-large" @click="displayMessage" :data-id="id">
+<v-btn size="300" rounded="" @click="displayMessage" :data-id="id" 
+class="elevation-10">
     {{ reviewValue }}
 </v-btn>
 </template>
@@ -25,3 +26,5 @@ const displayMessage = () => {
     emit('clickReview', props.id)
 }
 </script>
+<style>
+</style>
