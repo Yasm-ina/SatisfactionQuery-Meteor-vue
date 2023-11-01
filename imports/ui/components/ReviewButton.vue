@@ -1,7 +1,6 @@
 <template>
-<v-btn size="300" rounded="" @click="displayMessage"
-        :data-id="id" 
-class="buttonYasmina elevation-10">
+<v-btn size="350" @click="displayMessage"
+        :data-id="id" class="buttonYasmina elevation-10 rounded-circle">
     {{ reviewValue }}
 </v-btn>
 </template>
@@ -27,9 +26,8 @@ const displayMessage = () => {
     emit('clickReview', props.id)
 }
 </script>
-
 <style lang="scss">
-  .buttonYasmina {
-    background-color: aqua !important;
-  }
+      $rounded: (
+  'circle': 50%
+);
 </style>
