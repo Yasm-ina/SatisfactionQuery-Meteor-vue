@@ -1,5 +1,6 @@
 <template>
-<v-btn block rounded="xl" size="x-large" @click="displayMessage" :data-id="id">
+<v-btn block rounded="xl" size="x-large" @click="displayMessage"
+       class="buttonYasmina" :data-id="id">
     {{ reviewValue }}
 </v-btn>
 </template>
@@ -25,3 +26,9 @@ const displayMessage = () => {
     emit('clickReview', props.id)
 }
 </script>
+
+<style lang="scss">
+  .buttonYasmina {
+    background-color: aqua !important;
+  }
+</style>
