@@ -1,6 +1,6 @@
 <template>
 <v-btn size="350" @click="displayMessage"
-        :data-id="id" class="buttonYasmina elevation-10 rounded-circle">
+        :data-id="id">
     {{ reviewValue }}
 </v-btn>
 </template>
@@ -20,6 +20,8 @@ const props = defineProps({
         required: true
     },
 })
+
+
 const  emit = defineEmits(['clickReview'])
 
 const displayMessage = () => {
