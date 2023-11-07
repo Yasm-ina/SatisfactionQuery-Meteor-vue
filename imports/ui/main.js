@@ -3,8 +3,7 @@ import { createApp } from 'vue'
 import { VueMeteor } from 'vue-meteor-tracker'
 import { createPinia } from 'pinia'
 import  App from './App.vue'
-import  { router } from './router'
-
+import  { router } from './libs/router'
 
 //Pinia 
 const pinia = createPinia()
@@ -22,6 +21,8 @@ const vuetify = createVuetify({
 
 Meteor.startup(() => {
   const app = createApp(App)
+  app.provide('useQuerySatisfactionStore', 'value')
+  const useQuerySatisfactionStore = inject(useQuerySatisfactionStore)
   app.use(router).use(VueMeteor).use(vuetify).use(pinia)
   app.mount('#app')
 })
