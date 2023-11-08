@@ -1,25 +1,25 @@
-import { defineStore } from "pinia";
+// import { defineStore } from "pinia";
 
-export const useQueryStore = defineStore(
-  "query", {
-  state: () => ({
-    //STATE
-    reviews: [],
-    emails: [],
-    graphics: []
-    
-  }),
-    //GETTERS
-    getters: {
-      getReviews: (state) => state.reviews,
-      getEmails: (state) => state.emails, 
-      getGraphics: (state) => state.graphics,
-    },
+// export const useQueryStore = defineStore(
+//   "query", {
+//   state: () => ({
+//     //STATE
+//     reviews: [],
+//     emails: [],
+//     graphics: []
+//   }),
+
+//     //GETTERS
+//     getters: {
+//       getReviews: (state) => state.reviews,
+//       getEmails: (state) => state.emails, 
+//       getGraphics: (state) => state.graphics,
+//     },
 
     //ACTIONS
     //definition method verification made in front to not overuse 
     //verfications of backend
-    actions: {
+    // actions: {
 
     // Meteor.call("reviews.insertReview",
     //   {
@@ -43,6 +43,6 @@ export const useQueryStore = defineStore(
     //   emailId: "exemple"  
     //   });    // insertReview.validate({ wrong: "args" });
 
-    }
-  });
+  //   }
+  // });
   

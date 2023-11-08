@@ -1,11 +1,12 @@
 import SimpleSchema from "simpl-schema";
 
 //Meteor Publication: sends all documents to client
-Meteor.publish("Review.insert", function (reviewId, email) {
+Meteor.publish("Review.insert", function (reviewId, reviewValue, email) {
   new SimpleSchema({
     reviewId: { type: String },
-    email: { type: String, RegExp },
-  }).validate({ reviewId, email });
+    reviewValue: { type: String },
+    email: { type: String, RegExp }
+  }).validate({ reviewId, email, reviewValue });
 
   const foundReview = Reviews.findOne(reviewId);
   const foundEmail = Emails.findOne(email);
@@ -20,11 +21,22 @@ Meteor.publish("Review.insert", function (reviewId, email) {
   }
 });
 
+Meteor.publish("list.Review.private", function () {
+  return List.find(
+    {
+      reviewId: { $exists: false },
+    },
+    {
+      fields: List.publicFields,
+    }
+  );
+});
+
 // Meteor.publish('Emails', function(){
 //     return Emails.find({});
 // })
 
-Meteor.publish("Statistic", function () {
+Meteor.publish("get.Statistic", function () {
   return Statistic.find({
     reviewId: { $exist: false },
   });

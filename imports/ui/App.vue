@@ -31,18 +31,12 @@
 <script setup>
 import ReviewButton from './components/ReviewButton.vue'
 import inputEmail from './components/inputEmail.vue';
-import { useQuerySatisfactionStore } from './libs/pinia.js';
 import { ref } from 'vue'
-import { inject } from 'vue'
+
 
 
 //DATAS : 
-export const useQuerySatisfactionStore = defineStore('insertReview', () => {
-  const store = inject('insertEmail')
-
-
-  
-  //define regular expression for email
+//define regular expression for email
 const rules = ref([
   value => /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(value) || 'Veuillez entrer un format valide',
   value => !!value || 'Obligatoire',
@@ -68,21 +62,6 @@ const reviewChoices = [
 
 
 //METHODS:
-const insertEmail = new ValidateMethod({
-  name: 'methods.insertReview',
-  validate: new SimpleSchema({
-    email: { type: String, regEx: rules.value },
-  }).validator(),
-  run(email) {
-    // In here, we can be sure that the newInvoice argument is validated
-    if (!this.emailId) {
-      throw new Meteor.Error('[Invoices.methods.insert]', rules.value)
-    }
-    Invoices.insert(newInvoice)
-  }
-})
-})
-
 function getReviewClass(review) {
   //regexp seach spaces to use as class name in css
   //generate valid nameClass css 
