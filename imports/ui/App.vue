@@ -32,6 +32,7 @@
 import ReviewButton from './components/ReviewButton.vue'
 import inputEmail from './components/inputEmail.vue';
 import { ref } from 'vue'
+import Reviews from "../collections/reviews.js";
 
 
 
@@ -79,6 +80,7 @@ function checked(id) {
     switch (foundReview._id) {
       case 0:
         selectedReview.value = foundReview.description
+        Meteor.call('insertReview', foundReview.description)
         console.log('[App.vue][switchMethod] id 0 :', foundReview.description);
         break;
       case 1:
