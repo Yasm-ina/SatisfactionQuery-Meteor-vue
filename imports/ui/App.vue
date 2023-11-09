@@ -7,7 +7,7 @@
       <v-container fluid>
         <v-row no-gutters>
           <v-col cols="3" v-for="review in reviewChoices" :key="review._id" class="ma-13">
-            <ReviewButton @clickReview="checked" :reviewValue="review.description" :id="review._id"
+            <ReviewButton @form-validation="checked" :reviewValue="review.description" :id="review._id"
               :style="{ 'background-color': review.color }"
               class="rounded-circle shadowCircle text-white text-lowercase font-weight-medium text-h5" />
           </v-col>

@@ -1,5 +1,5 @@
 <template>
-<v-btn size="350" @click="displayMessage"
+<v-btn size="350" @click="displayModal"
         :data-id="id">
     {{ reviewValue }}
 </v-btn>
@@ -21,11 +21,9 @@ const props = defineProps({
     },
 })
 
-
-const  emit = defineEmits(['clickReview'])
-
-const displayMessage = () => {
-    emit('clickReview', props.id)
+const  emit = defineEmits(['formValidation'])
+const displayModal = () => {
+    emit('formValidation', props.id)
 }
 </script>
 <style lang="scss">
