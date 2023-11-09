@@ -37,10 +37,10 @@
 import ReviewButton from './components/ReviewButton.vue'
 import inputEmail from './components/inputEmail.vue';
 import { ref } from 'vue'
-import Reviews from "../collections/reviews.js";
+import ReviewsCollection from "../collections/reviews.js";
+import { autorun } from 'vue-meteor-tracker'
 
-const test = Reviews.find().fetch()
-
+const test = autorun(() => ReviewsCollection.find({}).fetch()).result
 
 //DATAS : 
 //define regular expression for email
