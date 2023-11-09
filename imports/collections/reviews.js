@@ -1,3 +1,3 @@
-const ReviewsCollection = new Mongo.Collection('users');
+const ReviewsCollection = new Mongo.Collection('reviews');
 
 export default ReviewsCollection

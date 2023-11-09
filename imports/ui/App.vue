@@ -18,6 +18,11 @@
             </inputEmail>
           </v-row>
         </v-container>
+        <v-container fluid>
+          <v-row no-gutters>
+            reviews inserted {{ test.length }}
+          </v-row>
+        </v-container>
         <p v-if="selectedReview" class="d-flex text-center justify-center pa-12 ma-12"> Vous êtes &nbsp;
           <strong :class="getReviewClass(selectedReview)">{{ selectedReview }}</strong> &nbsp; de votre achat au
           fairStore.
@@ -34,6 +39,7 @@ import inputEmail from './components/inputEmail.vue';
 import { ref } from 'vue'
 import Reviews from "../collections/reviews.js";
 
+const test = Reviews.find().fetch()
 
 
 //DATAS : 
