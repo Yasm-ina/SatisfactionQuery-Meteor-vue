@@ -1,5 +1,5 @@
-import {Meteor} from "meteor/meteor";
-import Reviews from "../../collections/reviews.js";
+import { Meteor } from "meteor/meteor";
+import ReviewsCollection from '../../db/reviewsCollection.js';
 class ReviewsDao {
 
   /**
@@ -12,7 +12,7 @@ class ReviewsDao {
   static async insertReview(review, userEmail, ts) {
     console.log('[Dao][Reviews][insertReview] Inserting review with params', review, userEmail, ts)
     try {
-      const result = Reviews.insert({
+      const result = ReviewsCollection.insert({
         review: review,
         userEmail: userEmail,
         ts: ts

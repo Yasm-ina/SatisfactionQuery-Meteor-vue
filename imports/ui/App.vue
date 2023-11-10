@@ -37,10 +37,20 @@
 import ReviewButton from './components/ReviewButton.vue'
 import inputEmail from './components/inputEmail.vue';
 import { ref } from 'vue'
-import ReviewsCollection from "../collections/reviews.js";
 import { autorun } from 'vue-meteor-tracker'
+import ReviewsCollection from "../db/reviewsCollection.js";
+import UsersCollection from '../db/usersCollection'
+import { callMethod } from 'vue-meteor-tracker';
+import '../api/methods/reviewMethods.js'
 
+
+//TODO : use it to validate form connection to collections 
 const test = autorun(() => ReviewsCollection.find({}).fetch()).result
+const userReview = autorun(() => ReviewsCollection.find({}).fetch()).result
+const userEmail = autorun(() => UsersCollection.find({}).fetch()).result
+console.log(userReview, 'collection userReview')
+console.log(userEmail, 'collection userEmail')
+
 
 //DATAS : 
 //define regular expression for email
@@ -59,14 +69,12 @@ const selectedReview = ref(null);
 
 const inputContent = ref('');
 
-
 //object that is used in template (v-for), AND in find () method
 const reviewChoices = [
   { _id: 0, description: 'très satisfait', color: '#53c005' },
   { _id: 1, description: 'moyennement satisfait', color: '#dfab00' },
   { _id: 2, description: 'pas du tout satisfait', color: '#dc143c' },
 ];
-
 
 //METHODS:
 function getReviewClass(review) {
@@ -76,33 +84,35 @@ function getReviewClass(review) {
 };
 
 //switch for value displayed 
-function checked(id) {
-  console.log('allReviews', reviewChoices, id)
-  //find specific review (with id AND description)
-  const foundReview = reviewChoices.find((review) => review._id === id)
-  console.log('reviewChoices', foundReview.color)
-  //if find specific, switch specific one with id for parameter
-  if (foundReview) {
-    switch (foundReview._id) {
-      case 0:
-        selectedReview.value = foundReview.description
-        Meteor.call('insertReview', foundReview.description)
-        console.log('[App.vue][switchMethod] id 0 :', foundReview.description);
-        break;
-      case 1:
-        selectedReview.value = foundReview.description;
-        console.log('[App.vue][switchMethod] id 1 :', foundReview.description);
-        break;
-      case 2:
-        selectedReview.value = foundReview.description;
-        console.log('[App.vue][switchMethod] id 2 :', foundReview.description);
-        break;
+async function checked(id) {
+  try {
+    console.log('allReviews', reviewChoices, id)
+    //find specific review (with id AND description)
+    const foundReview = reviewChoices.find((review) => review._id === id)
+    console.log('reviewChoices', foundReview.color)
+    //if find specific, switch specific one with id for parameter
+    if (foundReview) {
+      switch (foundReview._id) {
+        case 0:
+          selectedReview.value = foundReview.description
+          await callMethod('insertReview', foundReview.description)
+          console.log('[App.vue][switchMethod] id 0 :', foundReview.description);
+          break;
+        case 1:
+          selectedReview.value = foundReview.description;
+          console.log('[App.vue][switchMethod] id 1 :', foundReview.description);
+          break;
+        case 2:
+          selectedReview.value = foundReview.description;
+          console.log('[App.vue][switchMethod] id 2 :', foundReview.description);
+          break;
+      }
     }
+  } catch (e) {
+    console.error(e)
   }
 }
 </script>
-
-
 <style>
 #text {
   font-family: 'Comfortaa', sans-serif !important;
