@@ -1,5 +1,5 @@
 import { Meteor } from "meteor/meteor";
-import ReviewsCollection from '../../db/reviewsCollection.js';
+import ReviewsCollection from '../../dbCollections/reviewsCollection.js';
 class ReviewsDao {
 
   /**

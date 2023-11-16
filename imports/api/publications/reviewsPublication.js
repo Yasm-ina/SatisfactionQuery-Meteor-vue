@@ -1,6 +1,8 @@
 import {Meteor} from "meteor/meteor";
-import ReviewsCollection from "../../db/reviewsCollection.js";
+import ReviewsCollection from "../../dbCollections/reviewsCollection.js";
 
 Meteor.publish('reviewsCollection', function (){
-  return ReviewsCollection.find()
+  return ReviewsCollection.find({}),
+  ReviewsCollection.insert({}),
+  ReviewsCollection.delete({})
 })

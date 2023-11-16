@@ -1,5 +1,5 @@
 <template>
-    <v-btn size="350" @click="displayModal" :data-id="id">
+    <v-btn @click="reviewClicked" :data-id="id" :disabled="isDisabled">
         {{ reviewValue }}
     </v-btn>
 </template>
@@ -18,11 +18,16 @@ const props = defineProps({
         default: 0,
         required: true
     },
+    isDisabled : {
+        type: Boolean,
+        default: true, 
+        required : true 
+    }
 })
 
-const emit = defineEmits(['formValidation'])
-const displayModal = () => {
-    emit('formValidation', props.id)
+const emit = defineEmits(['userReview'])
+const reviewClicked = () => {
+    emit('userReview', props.id)
 }
 </script>
 <style lang="scss">

@@ -1,4 +1,4 @@
-import ReviewsCollection from '../../db/reviewsCollection.js'
+import ReviewsCollection from '../../dbCollections/reviewsCollection.js'
 
 
 Meteor.methods({
