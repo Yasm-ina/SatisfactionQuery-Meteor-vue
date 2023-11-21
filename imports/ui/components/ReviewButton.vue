@@ -26,9 +26,8 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['userReview'])
-const reviewClicked = () => {
-    emit('userReview', props.id)
-}
+const reviewClicked = () => { emit('userReview', props.id)}
+
 </script>
 <style lang="scss">
 $rounded: (
