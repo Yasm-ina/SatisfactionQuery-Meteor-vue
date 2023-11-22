@@ -2,7 +2,7 @@
   "name": "satisfaction-query-meteorvue",
   "private": true,
   "scripts": {
-    "start": "meteor run",
+    "start": "MONGO_URL='mongodb://yasmina:yasmina@portainer.realise.ch:47017' meteor run",
     "build": "meteor build ../output/vue --directory",
     "test": "meteor test --once --driver-package meteortesting:mocha",
     "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.17.9",
+    "@jamescoyle/vue-icon": "^0.1.2",
     "fibers": "^5.0.3",
     "meteor-node-stubs": "^1.2.1",
     "vue": "^3.2.45",

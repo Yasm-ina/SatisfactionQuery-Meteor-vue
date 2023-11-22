@@ -1,5 +1,6 @@
 <template>
     <v-btn @click="reviewClicked" :data-id="id" :disabled="isDisabled">
+        <!-- <icon icon="iconReview"/> -->
         {{ reviewValue }}
     </v-btn>
 </template>
@@ -9,28 +10,27 @@ import { defineProps, defineEmits } from 'vue';
 
 const props = defineProps({
     reviewValue: {
-        type: String,
-        default: "",
+        type    : String,
+        default : "",
         required: true,
     },
     id: {
-        type: Number,
-        default: 0,
+        type    : Number,
+        default : 0,
         required: true
     },
-    isDisabled : {
-        type: Boolean,
-        default: true, 
-        required : true 
-    }
+    isDisabled: {
+        type    : Boolean,
+        default : true,
+        required: true
+    },
 })
 
 const emit = defineEmits(['userReview'])
 const reviewClicked = () => { emit('userReview', props.id)}
 
 </script>
-<style lang="scss">
-$rounded: (
-    'circle': 50%
-);
+<style lang = "scss">
+$rounded: 
+('circle': 50%);
 </style>

@@ -6,6 +6,7 @@ import {subscribe, VueMeteor} from 'vue-meteor-tracker'
 import vuetify from './libs/vuetify.js'
 import ReviewsCollection from '../dbCollections/reviewsCollection.js'
 
+
 Meteor.startup(() => {
   const app = createApp(App)
   app.use(router).use(VueMeteor).use(vuetify).use(ReviewsCollection)

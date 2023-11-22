@@ -22,8 +22,8 @@ import { defineProps, defineEmits, ref } from 'vue';
 
 const props = defineProps({
     isDisabledInput: {
-        type: Boolean,
-        default: true,
+        type    : Boolean,
+        default : true,
         required: true
     },
 })
@@ -37,7 +37,7 @@ const rules = [
         return exprReg.test(value) || 'Veuillez entrer un format valide'
     },
     value => !!value || 'Obligatoire',
-    value => (value.length >= 7) || 'Min 7 characters',]
+    value => (value.length >= 7) || 'Min 7 characters']
 
 /**
 * when key is released 

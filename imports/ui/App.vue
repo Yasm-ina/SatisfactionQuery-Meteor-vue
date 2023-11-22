@@ -1,27 +1,30 @@
 <template>
   <v-app>
     <div>
-      <p class="text-center" id="text">Satisfaction query</p>
-      <br />
-      <br />
+      <br><br><br>
+      <strong>
+        <h1 class="text-center" id="fontFamily">Satisfaction query</h1>
+      </strong>
+      <br>
+      <br>
       <v-form>
         <v-container fluid>
           <v-row no-gutters>
             <v-col cols="3" v-for="review in reviewChoices" :key="review._id" class="ma-13">
               <ReviewButton @user-review="clicked" size="350" :review-value="review.description" :id="review._id"
                 :is-disabled="isReviewButtonDisabled" :style="{ 'background-color': review.bgColor }"
-                class="rounded-circle shadowCircle text-white text-lowercase font-weight-medium text-h5" />
+                class="rounded-circle shadowCircle text-white text-h5" />
+                <emojis></emojis>
             </v-col>
           </v-row>
           <v-container fluid>
             <v-row no-gutters>
-              <inputEmail @getValueInput="validateEmail" @errorInput="handleInputError"
+              <inputEmail id="fontFamily" @getValueInput="validateEmail" @errorInput="handleInputError"
                 :is-disabled-input="isInputDisabled">
               </inputEmail>
             </v-row>
-            <p></p>
-            <br />
-            <br />
+            <br>
+            <br>
           </v-container>
         </v-container>
       </v-form>
@@ -35,19 +38,21 @@
     </div>
     <v-dialog v-model="isModalOpen" persistent width="800">
       <v-card>
-        <v-card-text v-for="review in reviewChoices" :key="review._id">
-          <p :review-value="review.description" class="d-flex
-          text-center justify-center pa-12 ma-12"> Vous êtes
-            <strong :style="{ 'color': review.textColor }">{{ selectedReview }}
-            </strong> de votre achat au fairStore.
+        <v-card-text class="mx-9 pt-12 pb-7">
+          <p>Merci d'avoir effectué votre achat au FairStore !</p><br><br>
+          <p id="fontFamily" class="d-flex text-center justify-start">Vous êtes &nbsp;
+            <strong :style="{ 'color': userReviewColor }">{{ selectedReviewText }}
+            </strong> &nbsp;de votre achat au fairStore.
+            <br><br><br>
           </p>
+          <p class="d-flex text-center justify-start" id="fontFamily">
+            Votre email est : &nbsp;<strong>{{ inputEmailValue }}</strong>&nbsp;</p>
         </v-card-text>
         <v-card-actions>
           <v-spacer>
           </v-spacer>
           <modalHandler @validation="handleValidData" @go-back="cancelReview" :is-modal-open="isModalOpen">
           </modalHandler>
-
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -55,15 +60,19 @@
 </template>
 
 <script setup>
+//components
 import modalHandler from "./components/modalHandler.vue"
 import ReviewButton from "./components/ReviewButton.vue";
 import inputEmail from "./components/inputEmail.vue";
+import emojis from "./components/emojis.vue"
+//vue functions
 import { handleError, ref } from "vue";
-import { autorun } from "vue-meteor-tracker";
-import "../api/methods/reviewMethods.js";
+//meteor
+import { subscribe, callMethod } from "vue-meteor-tracker";
+
 
 /**
- * BUTON
+ * -------BUTONS REVIEW----------
  * if button clicked - input is abled
  * @param {Boolean} isReviewButtonDisabled
  * @param {Boolean} isInputDisabled
@@ -73,33 +82,49 @@ import "../api/methods/reviewMethods.js";
  */
 //object that is used in template (v-for), AND in find () method
 const reviewChoices = [
-  { _id: 0, description: 'très satisfait', bgColor: '#53c005', textColor: '#53c005' },
-  { _id: 1, description: 'moyennement satisfait', bgColor: '#dfab00', textColor: '#53c005' },
-  { _id: 2, description: 'pas du tout satisfait', bgColor: '#dc143c', textColor: '#53c005' },
+  { _id: 0, description: 'très satisfait', bgColor: '#53c005', textColor: '#53c005'},
+  { _id: 1, description: 'moyennement satisfait', bgColor: '#dfab00', textColor: '#dfab00' },
+  { _id: 2, description: 'pas du tout satisfait', bgColor: '#dc143c', textColor: '#dc143c' },
 ];
+
 const isReviewButtonDisabled = ref(false)
 const isInputDisabled = ref(true);
-const selectedReview = ref(false);
+const selectedReviewText = ref(false);
+const userReviewColor = ref('')
+
+/**------DISPLAY OF TEXT REVIEW AND TEXT COLOR---------- 
+ * method that gives values of specific UserChoice : textOfReview (selectedReviewText.value)
+ * and colorOfTextReview (userReviewColor.value)
+ * @function
+ * @param {Number} id 
+ * @author Yasmina 
+ */
 async function clicked(id) {
   try {
-    //find specific review (with id AND description)
+    //find specific review (by id)
     const foundReview = reviewChoices.find((review) => review._id === id)
     console.debug('foundReview', foundReview)
     //if find specific, switch specific one with id for parameter
     if (foundReview) {
       switch (foundReview._id) {
         case 0:
-          selectedReview.value = foundReview.description
-          // await callMethod('insertReview', foundReview.description)
+          selectedReviewText.value = foundReview.description;
+          userReviewColor.value = foundReview.textColor
+          console.log('colorText', userReviewColor)
+          // reviewColorChoice = foundReview.textColor
           console.debug('[App.vue][switchMethod] id 0 :', foundReview.description);
           break;
         case 1:
-          selectedReview.value = foundReview.description;
+          selectedReviewText.value = foundReview.description;
+          userReviewColor.value = foundReview.textColor
+          console.log('colorText', userReviewColor)
           console.debug('[App.vue][switchMethod] id 1 :', foundReview.description);
           // await callMethod('insertReview', foundReview.description)
           break;
         case 2:
-          selectedReview.value = foundReview.description;
+          selectedReviewText.value = foundReview.description;
+          userReviewColor.value = foundReview.textColor
+          console.log('colorText', userReviewColor)
           console.debug('[App.vue][switchMethod] id 2 :', foundReview.description);
           // await callMethod('insertReview', foundReview.description)
           break;
@@ -112,7 +137,7 @@ async function clicked(id) {
 }
 
 /**
- * INPUT EMAIL - SUBMIT BUTTON
+ * --------INPUT EMAIL - SUBMIT BUTTON----------
  *  function triggered by inputEmail.vue if value
  * is checked
  * @param {String} inputEmailContent email fully checked
@@ -129,7 +154,7 @@ function validateEmail(inputEmailContent) {
 }
 
 /**
- * SUBMIT BUTTON
+ * ---------SUBMIT BUTTON-----------//
  * if error found in email-button disabled
  * @param {Boolean} isSubmitButtonDisabled
  * @function
@@ -139,8 +164,7 @@ function handleInputError() {
   isSubmitButtonDisabled.value = true;
 }
 
-
-//MODALE
+//------------MODALE------------//
 //Data
 const isModalOpen = ref(false);
 console.log("modale", isModalOpen);
@@ -152,45 +176,27 @@ console.log("modale", isModalOpen);
  * @function
  * @author Yasmina 
  */
-function handleValidData(){
- isModalOpen.value = false  
+async function handleValidData() {
+  isModalOpen.value = false;
+  try {
+    await callMethod('insertReview', selectedReviewText.text, inputEmailValue.value)
+    console.log('done')
+  } catch (e) {
+    console.error(e)
+  }
+  
+
+  subscribe('insertReview')
 }
-function cancelReview(){
+
+function cancelReview() {
   isModalOpen.value = false
 }
-
-
-
-
-
-
-
-//TODO : use it to validate form connection to collections
-// const userReview = autorun(() => ReviewsCollection.find({}).fetch()).result;
-// const userEmail = autorun(() => UsersCollection.find({}).fetch()).result
-// console.log(userReview, "collection userReview");
-// console.log(userEmail, 'collection userEmail')
 </script>
-
 <style>
-#text {
-  font-family: "Comfortaa", sans-serif !important;
-  font-size: x-large !important;
-}
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;700&display=swap');
 
-.shadowCircle {
-  box-shadow: 0px 0px 12px 5px #e9e7a5a6 !important;
-}
-
-.trèssatisfait {
-  color: #53c005;
-}
-
-.moyennementsatisfait {
-  color: #dfab00;
-}
-
-.pasdutoutsatisfait {
-  color: #dc143c;
+#fontFamily {
+  font-family: "Comfortaa", sans-serif;
 }
 </style>
