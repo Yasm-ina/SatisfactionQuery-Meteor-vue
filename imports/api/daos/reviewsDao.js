@@ -1,7 +1,7 @@
 import { Meteor } from "meteor/meteor";
 import ReviewsCollection from '../../dbCollections/reviewsCollection.js';
-class ReviewsDao {
 
+class ReviewsDao {
   /**
    * Review DAO
    * @param {string} review - the review to insert

@@ -1,13 +1,19 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import App from '../App.vue'
+import { createRouter, createWebHistory } from "vue-router";
+import StoreSide from '../pages/StoreSide.vue';
+import CostumerSide from '../pages/CostumerSide.vue';
 
 export const router = createRouter({
-  history: createWebHistory(),
   routes: [
     {
-      path: '/',
-      name: 'home',
-      component: App,
+      path: "/",
+      name: "CostumerSide",
+      component: CostumerSide,
+    },
+    {
+      path: "/Store",
+      name: "StoreSide",
+      component: StoreSide,
     },
   ],
-})
+  history: createWebHistory(),
+});
