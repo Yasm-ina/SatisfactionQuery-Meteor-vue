@@ -7,7 +7,7 @@ import  App from './App.vue'
 import { createApp } from 'vue'
 import vuetify from './libs/vuetify.js'
 //router
-import {router} from './libs/router.js'
+import router from './libs/router.js'
 //icon
 import SvgIcon from '@jamescoyle/vue-icon'
 import { mdiAccount } from '@mdi/js'
