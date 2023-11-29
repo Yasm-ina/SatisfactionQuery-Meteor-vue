@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
+import {createRouter, createWebHistory} from "vue-router";
 import StoreSide from '../pages/StoreSide.vue';
 import CostumerSide from '../pages/CostumerSide.vue';
 
@@ -10,7 +10,7 @@ export const router = createRouter({
       component: CostumerSide,
     },
     {
-      path: "/Store",
+      path: "/store",
       name: "StoreSide",
       component: StoreSide,
     },

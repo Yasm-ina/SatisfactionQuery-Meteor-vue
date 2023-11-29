@@ -1,42 +1,36 @@
 <template>
   <v-app>
-    <div>
-      <br><br><br>
-      <strong>
-        <h1 class="text-center" id="fontFamily">Satisfaction query</h1>
-      </strong>
-      <br>
-      <br>
-      <v-form>
-        <v-container fluid>
-          <v-row no-gutters>
-            <v-col cols="3" v-for="review in reviewChoices" :key="review._id" class="ma-13">
-              <ReviewButton @user-review="clicked" size="350" :review-value="review.description" :id="review._id" 
-              :icon-path="review.iconPath" :is-disabled="isReviewButtonDisabled" :icon-color="{'color': review.iconColor}"
-              :style="{ 'background-color': review.bgColor }" class="rounded-circle text-white text-h5">
-              </ReviewButton>
-            </v-col>
-          </v-row>
-          <v-container fluid>
-            <v-row no-gutters>
-              <inputEmail id="fontFamily" @getValueInput="validateEmail" @errorInput="handleInputError"
-              :is-disabled-input="isInputDisabled">
-            </inputEmail>
-          </v-row>
-          <br>
-          <br>
-        </v-container>
-        </v-container>
-      </v-form>
-      <v-container fluid>
-        <v-row no-gutter justify="end">
-          <v-col cols="2">
-            <v-btn @click="isModalOpen = true" :disabled="isSubmitButtonDisabled" color="primary">soumettre</v-btn>
-          </v-col>
-        </v-row>
-      </v-container>
-    </div>
-    <v-dialog v-model="isModalOpen" persistent width="800">
+    <br><br><br>
+    <strong>
+      <h1 class="text-center" id="fontFamily">Satisfaction query</h1>
+    </strong>
+    <br>
+    <br>
+    <v-container>
+      <v-row>
+        <v-col cols="4" v-for="review in reviewChoices" :key="review._id" class="text-xs-center">
+          <ReviewButton @user-review="clicked"
+                        size="350"
+                        :review-value="review.description"
+                        :id="review._id"
+                        :icon-path="review.iconPath"
+                        :is-disabled="isReviewButtonDisabled"
+                        :icon-color="{'color': review.iconColor}"
+                        :style="{ 'background-color': review.bgColor }"
+                        class="rounded-circle text-white text-h5"/>
+        </v-col>
+      </v-row>
+      <v-row>
+        <InputEmail id="fontFamily" @getValueInput="validateEmail" @errorInput="handleInputError"
+                    :is-disabled-input="isInputDisabled"/>
+      </v-row>
+      <v-row justify="end">
+        <v-col cols="2">
+          <v-btn @click="showModal()" :disabled="isSubmitButtonDisabled" color="primary">soumettre</v-btn>
+        </v-col>
+      </v-row>
+    </v-container>
+<!--    <v-dialog v-model="isModalOpen" persistent width="800">
       <v-card>
         <v-card-text class="mx-9 pt-12 pb-7">
           <p id="fontFamily">Merci d'avoir effectué votre achat au FairStore !</p><br><br>
@@ -51,26 +45,32 @@
         <v-card-actions>
           <v-spacer>
           </v-spacer>
-          <modalHandler @validation="handleValidData" @go-back="cancelReview" :is-modal-open="isModalOpen">
-          </modalHandler>
+          <ModalHandler @validation="handleValidData" @go-back="cancelReview" :is-modal-open="isModalOpen"/>
         </v-card-actions>
       </v-card>
-    </v-dialog>
+    </v-dialog>-->
+
+    <Modal ref="recapModal"
+           :user-review-color="userReviewColor"
+           :selected-review-text="selectedReviewText"
+           :input-email-value="inputEmailValue"
+           @validation="handleValidData"
+    />
   </v-app>
 </template>
 
 <script setup>
 //components
-import modalHandler from "../components/modalHandler.vue"
+import Modal from "../components/Modal.vue"
 import ReviewButton from "../components/ReviewButton.vue";
-import inputEmail from "../components/inputEmail.vue";
-import { mdiEmoticonHappyOutline, mdiEmoticonNeutralOutline, mdiEmoticonSadOutline } from '@mdi/js';
-
+import InputEmail from "../components/InputEmail.vue";
+import {mdiEmoticonHappyOutline, mdiEmoticonNeutralOutline, mdiEmoticonSadOutline} from '@mdi/js';
 
 //vue functions
-import { handleError, ref } from "vue";
+import {ref} from "vue";
+
 //meteor
-import { subscribe, callMethod } from "vue-meteor-tracker";
+import {subscribe, callMethod} from "vue-meteor-tracker";
 
 
 /**
@@ -85,30 +85,47 @@ import { subscribe, callMethod } from "vue-meteor-tracker";
 //object used in template (v-for), AND in find () method
 const reviewChoices = [
   {
-    _id: 0, description: 'très satisfait', bgColor: '#53c005', textColor: '#53c005',
-     iconPath: mdiEmoticonHappyOutline, iconColor: 'rgb(34, 255, 192)'
+    _id: 0,
+    description: 'très satisfait',
+    bgColor: '#53c005',
+    textColor: '#53c005',
+    iconPath: mdiEmoticonHappyOutline,
+    iconColor: 'rgb(34, 255, 192)'
   },
   {
-    _id: 1, description: 'moyennement satisfait', bgColor: '#dfab00', textColor: '#dfab00', 
-    iconPath: mdiEmoticonNeutralOutline, iconColor: 'rgb(255, 250, 106)'
+    _id: 1,
+    description: 'moyennement satisfait',
+    bgColor: '#dfab00',
+    textColor: '#dfab00',
+    iconPath: mdiEmoticonNeutralOutline,
+    iconColor: 'rgb(255, 250, 106)'
   },
   {
-    _id: 2, description: 'pas du tout satisfait', bgColor: '#dc143c', textColor: '#dc143c', 
-    iconPath: mdiEmoticonSadOutline, iconColor: 'rgb(232, 138, 138)'
+    _id: 2,
+    description: 'pas du tout satisfait',
+    bgColor: '#dc143c',
+    textColor: '#dc143c',
+    iconPath: mdiEmoticonSadOutline,
+    iconColor: 'rgb(232, 138, 138)'
   },
 ];
 
 const isReviewButtonDisabled = ref(false)
 const isInputDisabled = ref(true);
-const selectedReviewText = ref(false);
+const selectedReviewText = ref('');
 const userReviewColor = ref('')
+const isSubmitButtonDisabled = ref(true);
+const inputEmailValue = ref("");
 
-/**------DISPLAY OF TEXT REVIEW AND TEXT COLOR---------- 
+// reference to the modal
+const recapModal = ref(null);
+
+/**------DISPLAY OF TEXT REVIEW AND TEXT COLOR----------
  * method that gives values of specific UserChoice : textOfReview (selectedReviewText.value)
  * and colorOfTextReview (userReviewColor.value)
  * @function
- * @param {Number} id 
- * @author Yasmina 
+ * @param {Number} id
+ * @author Yasmina
  */
 async function clicked(id) {
   try {
@@ -149,15 +166,12 @@ async function clicked(id) {
 
 /**
  * --------INPUT EMAIL - SUBMIT BUTTON----------
- *  function triggered by inputEmail.vue if value
+ *  function triggered by InputEmail.vue if value
  * is checked
  * @param {String} inputEmailContent email fully checked
- * @param {Boolean} isSubmitButtonDisabled
  * @function
  * @author Yasmina and Marco
  */
-const isSubmitButtonDisabled = ref(true);
-const inputEmailValue = ref("");
 function validateEmail(inputEmailContent) {
   console.log("[inputEmailContent]", inputEmailContent);
   inputEmailValue.value = inputEmailContent;
@@ -167,7 +181,6 @@ function validateEmail(inputEmailContent) {
 /**
  * ---------SUBMIT BUTTON-----------//
  * if error found in email-button disabled
- * @param {Boolean} isSubmitButtonDisabled
  * @function
  * @author Yasmina
  */
@@ -175,38 +188,31 @@ function handleInputError() {
   isSubmitButtonDisabled.value = true;
 }
 
-//------------MODALE------------//
-//Data
-const isModalOpen = ref(false);
-console.log("modale", isModalOpen);
-
 //Methods
 /**
  * modale's management
- * @param {Boolean} isModalOpen
  * @function
- * @author Yasmina 
+ * @author Yasmina
  */
 async function handleValidData() {
-  isModalOpen.value = false;
   try {
-    await callMethod('insertReview', selectedReviewText.text, inputEmailValue.value)
+    console.log('HandleValidateData')
+    await callMethod('insertReview', selectedReviewText.value, inputEmailValue.value)
     console.log('done')
   } catch (e) {
     console.error(e)
   }
-
-
-  subscribe('insertReview')
+  //subscribe('insertReview')
 }
 
-function cancelReview() {
-  isModalOpen.value = false
+function showModal() {
+  recapModal.value.showModal()
 }
 </script>
 
 
-<style>@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;700&display=swap');
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;700&display=swap');
 
 #fontFamily {
   font-family: "Comfortaa", sans-serif;
