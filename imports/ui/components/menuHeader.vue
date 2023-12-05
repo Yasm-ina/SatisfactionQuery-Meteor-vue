@@ -1,5 +1,5 @@
 <template>
-       <v-card class="mx-auto" rounded="50">
+       <v-card class="mx-auto" rounded="50" elevation="5">
               <v-toolbar>
                      <v-col cols="6" class="justify-start">
                             <v-toolbar-title>filtrer par date: </v-toolbar-title>
@@ -14,12 +14,12 @@
               <v-row>
                      <v-col cols="8">
                             <DateFilter v-if="isDateFilterClose" :show-week="true" :date-picker-color="datePickerColor"
-                                   :is-date-filter-close="isDateFilterClose">
+                                   :is-date-filter-close="isDateFilterClose" :date="date">
                             </DateFilter>
                      </v-col>
                      <v-col cols="8">
                             <DateFilter v-if="isDateFilterClose" :show-week="true" :date-picker-color="datePickerColor"
-                                   :is-date-filter-close="isDateFilterClose">
+                                   :is-date-filter-close="isDateFilterClose" :date="date">
                             </DateFilter>
                      </v-col>
               </v-row>
@@ -31,7 +31,8 @@ import DateFilter from '../components/DateFliter.vue'
 import { defineProps, ref } from 'vue'
 
 //----------------DATA------------------
-// date pickerOpenState
+const date = ref()
+// datePicker
 const isDateFilterClose = ref(false)
 const datePickerColor = ref('orange')
 
