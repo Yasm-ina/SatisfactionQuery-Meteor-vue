@@ -1,5 +1,5 @@
 <template>
-        <v-date-picker :show-week="true" :color="datePickerColor" :is-date-filter-open="isDateFilterOpen">
+        <v-date-picker :show-week="true" :color="datePickerColor" :is-date-filter-close="isDateFilterClose">
         </v-date-picker>
 </template>
 <script setup>
@@ -7,7 +7,7 @@ import { defineProps} from 'vue'
 // import dayjsMixins from '../mixins/dayjs.js'
 
 const props = defineProps ({
-  isDateFilterOpen: {
+  isDateFilterClose: {
     type: Boolean,
     default: false,
     required: true, 

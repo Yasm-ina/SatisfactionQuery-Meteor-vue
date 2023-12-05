@@ -3,7 +3,6 @@
 </template>
 
 <script setup>
-
 import SvgIcon from '@jamescoyle/vue-icon';
 import { mdiAccount } from '@mdi/js';
 import { defineProps } from 'vue';
