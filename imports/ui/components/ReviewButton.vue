@@ -5,7 +5,7 @@
         <v-container fluid>
             <br>
                 <v-row class="justify-center">
-                    <emojis :icon-path="iconPath" :icon-color="iconColor" class="justify-content-center">
+                    <emojis :icon-path="iconPath" :icon-color="iconColor" class="justify-content-center"   width="140" height="140">
                     </emojis>
                 </v-row>
             </v-container>
@@ -40,7 +40,7 @@ const props = defineProps({
     iconColor: {
         type: Object,
         default: '',
-        required: true
+        required: false
     }
 })
 

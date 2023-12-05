@@ -1,14 +1,16 @@
 <template>
        <v-container fluid>
-              <v-row>
-                     <v-col>
+              <v-row class="bg-teal-lighten-5">
+                     <v-col cols="6">
                             <router-link to="/">CostumerSide</router-link>
-                            <router-link to="/Store">StoreSide</router-link>
-                            <router-view>
-                            </router-view>
                      </v-col>
+                     <v-col cols="6">
+                            <router-link to="/Store">StoreSide</router-link>
+                     </v-col>
+                     <br><br><br>
               </v-row>
-
+              <router-view>
+              </router-view>
        </v-container>
 </template>
 <script>

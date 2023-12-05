@@ -17,5 +17,5 @@ Meteor.startup(() => {
   app.use(router).use(VueMeteor).use(vuetify)
   .use(SvgIcon).use(mdiAccount).use(ReviewsCollection)
   app.mount('#app')
-  
+
 })

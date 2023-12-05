@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { createApp } from 'vue';
-import StoreSide from '../pages/StoreSide.vue';
-import CostumerSide from '../pages/CostumerSide.vue';
+// import { createApp } from 'vue';
+import StoreSide from "../pages/StoreSide.vue";
+import CostumerSide from "../pages/CostumerSide.vue";
+
 
 export const router = createRouter({
   routes: [
@@ -18,4 +19,5 @@ export const router = createRouter({
   ],
   history: createWebHistory(),
 });
-export default router
+
+export default router;

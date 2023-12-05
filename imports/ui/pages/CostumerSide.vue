@@ -196,7 +196,6 @@ async function handleValidData() {
     console.error(e)
   }
 
-
   subscribe('insertReview')
 }
 

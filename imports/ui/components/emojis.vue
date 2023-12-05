@@ -1,5 +1,5 @@
 <template>
-       <svg-icon type="mdi" :path="iconPath" :style="iconColor" width="140" height="140"></svg-icon>
+       <svg-icon type="mdi" :path="iconPath" :style="iconColor"></svg-icon>
 </template>
 
 <script setup>
@@ -14,14 +14,14 @@ const props = defineProps({
               path: mdiAccount,
        },
        iconPath: {
-              type: String,
+              type: String, Object,
               default : '',
               required: true
        }, 
        iconColor: {
-              type: Object,
+              type: Object, String,
               default: '',
-              required: true,
+              required: false,
        }
 })
 </script>
