@@ -1,10 +1,11 @@
 <template>
-        <v-date-picker :v-model="date" :show-week="true" :color="datePickerColor" :is-date-filter-close="isDateFilterClose">
+        <v-date-picker v-model='dateForPicker' :color="datePickerColor" :is-date-filter-close="isDateFilterClose" @update:model-value="selectedDate">
         </v-date-picker>
 </template>
 <script setup>
-import { defineProps} from 'vue';
 import { useDate } from 'vuetify'
+import {ref} from "vue";
+
 // import dayjsMixins from '../mixins/dayjs.js'
 
 const props = defineProps ({
@@ -20,7 +21,7 @@ const props = defineProps ({
   },
   date : {
     type: Number,
-    default: new Date().getTime(),
+    default: 0,
     required: true,
   },
   // ts : {
@@ -34,8 +35,19 @@ const props = defineProps ({
   //   required: true
   // }
 });
-const date = useDate()
-console.log('DATE', date.getMonth(new Date('')))
+
+const dateForPicker = ref(new Date())
+
+console.log(useDate)
+
+const ciao = useDate()
+console.log(ciao)
+console.log('MIAO', ciao.date(new Date()))
+
+function selectedDate(newValue){
+  console.log('NewValue', newValue)
+  dateForPicker.value = newValue
+}
 
 //date chosen
 // const timeFrame  = ref((ts) => {

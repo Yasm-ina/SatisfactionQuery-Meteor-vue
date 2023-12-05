@@ -13,13 +13,13 @@
               </v-toolbar>
               <v-row>
                      <v-col cols="8">
-                            <DateFilter v-if="isDateFilterClose" :show-week="true" :date-picker-color="datePickerColor"
-                                   :is-date-filter-close="isDateFilterClose" :date="date">
+                            <DateFilter v-if="isDateFilterClose" :date-picker-color="datePickerColor"
+                                   :is-date-filter-close="isDateFilterClose">
                             </DateFilter>
                      </v-col>
                      <v-col cols="8">
-                            <DateFilter v-if="isDateFilterClose" :show-week="true" :date-picker-color="datePickerColor"
-                                   :is-date-filter-close="isDateFilterClose" :date="date">
+                            <DateFilter v-if="isDateFilterClose" :date-picker-color="datePickerColor"
+                                   :is-date-filter-close="isDateFilterClose">
                             </DateFilter>
                      </v-col>
               </v-row>
@@ -28,7 +28,7 @@
 <script setup>
 import emojis from '../components/emojis.vue'
 import DateFilter from '../components/DateFliter.vue'
-import { defineProps, ref } from 'vue'
+import { ref } from 'vue'
 
 //----------------DATA------------------
 const date = ref()
