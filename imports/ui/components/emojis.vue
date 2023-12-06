@@ -5,7 +5,7 @@
 <script setup>
 import SvgIcon from '@jamescoyle/vue-icon';
 import { mdiAccount } from '@mdi/js';
-import { defineProps } from 'vue';
+
 
 //----PROPS sent to ReviewButton.vue----
 const props = defineProps({

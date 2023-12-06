@@ -13,12 +13,12 @@
               </v-toolbar>
               <v-row>
                      <v-col cols="8">
-                            <DateFilter v-if="isDateFilterClose" :show-week="true" :date-picker-color="datePickerColor"
+                            <DateFilter v-if="isDateFilterClose" :date-picker-color="datePickerColor"
                                    :is-date-filter-close="isDateFilterClose" :date="date">
                             </DateFilter>
                      </v-col>
                      <v-col cols="8">
-                            <DateFilter v-if="isDateFilterClose" :show-week="true" :date-picker-color="datePickerColor"
+                            <DateFilter v-if="isDateFilterClose" :date-picker-color="datePickerColor"
                                    :is-date-filter-close="isDateFilterClose" :date="date">
                             </DateFilter>
                      </v-col>
@@ -28,11 +28,12 @@
 <script setup>
 import emojis from '../components/emojis.vue'
 import DateFilter from '../components/DateFliter.vue'
-import { defineProps, ref } from 'vue'
+import { ref } from 'vue'
 
 //----------------DATA------------------
-const date = ref()
-// datePicker
+// datePickerHandler
+const date = ref("")
+console.log('[MENUHEADER], date', date.value)
 const isDateFilterClose = ref(false)
 const datePickerColor = ref('orange')
 
@@ -49,9 +50,4 @@ const props = defineProps({
               required: false
        }
 })
-
-//--------------METHODS-----------
-
-// const emit = defineEmits(['openDatePicker'])
-// const clickedDateFilter = () => { emit('openDatePicker', props.isDateFilterOpen, console.log('salut', props.isDateFilterOpen)) }
 </script>

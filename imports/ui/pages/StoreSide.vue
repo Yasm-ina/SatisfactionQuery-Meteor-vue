@@ -23,15 +23,12 @@ const dataWeekValues = ref({
               label: 'Statistiques hebdomadaire'
        }],
 });
-console.log('dataValueNumbers', dataWeekValues.value)
+console.log('[StoreSide], [StatsReview], dataValueNumbers', dataWeekValues.value)
 
 const dataOptions = computed(() => {
        return { height: `${2000}px`, position: 'relative', backgroundColor: 'rgb(255, 99, 132)' }
 })
-console.log('dataOptions', dataOptions)
-// function clickOpenDatePicker () {
-//        isDateFilterOpen.value = true
-// }
+console.log('[StoreSide], [Stats], [graphOptions]', dataOptions)
 </script>
 <style>
 </style>
