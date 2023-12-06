@@ -13,7 +13,6 @@
     </v-btn>
 </template>
 <script setup>
-import { defineEmits } from 'vue';
 import emojis from './emojis.vue'
 
 const props = defineProps({

@@ -14,12 +14,12 @@
               <v-row>
                      <v-col cols="8">
                             <DateFilter v-if="isDateFilterClose" :date-picker-color="datePickerColor"
-                                   :is-date-filter-close="isDateFilterClose" :date="date">
+                                   :is-date-filter-close="isDateFilterClose">
                             </DateFilter>
                      </v-col>
                      <v-col cols="8">
                             <DateFilter v-if="isDateFilterClose" :date-picker-color="datePickerColor"
-                                   :is-date-filter-close="isDateFilterClose" :date="date">
+                                   :is-date-filter-close="isDateFilterClose">
                             </DateFilter>
                      </v-col>
               </v-row>
