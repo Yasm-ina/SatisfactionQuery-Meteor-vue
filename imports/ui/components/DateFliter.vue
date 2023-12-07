@@ -1,6 +1,7 @@
 <template>
-        <v-date-picker v-model="actualValueDate" @update:model-value="dateUpdate" :color="datePickerColor" 
-        :is-date-filter-close="isDateFilterClose" :date="date">
+        <v-date-picker
+        v-model="actualValueDate" :color="datePickerColor" :is-date-filter-close="isDateFilterClose" 
+        :date="date" @update:model-value="dateUpdate">
         </v-date-picker>
 </template>
 <script setup>
@@ -21,27 +22,32 @@ const props = defineProps ({
   },
   date : {
     type: String,
-    default: new Date("").getTime(),
+    default: new Date(),
     required: true, 
+  },
+  id: {
+    type: Number,
+    default: 0,
+    required: true
   },
 });
 
-
-//--------------------DATA-----------------------
+//-----------------------DATA---------------------------
 // access VUETIFY - date composable 
-const dateVuetify = useDate()
-console.log('dateNOTconverted', dateVuetify.date(new Date()))
-
-//V-MODEL - bidirectionnel
-// const datePicker = ref(new Date())
-// console.log('datePicker', datePicker.value)
+const accessDateVuetify = useDate()
 
 const actualValueDate = ref(new Date())
 console.log('datePicker', actualValueDate.value)
+// const dateFormatted = actualValueDate.value.format()
+// console.log('formated', dateFormatted)
+console.log('dateNOTconverted', accessDateVuetify.date(new Date()))
+
+
 const newValue = ref(dateUpdate)
 console.log('BRRR', newValue.ref)
+
 //V-MODEL - update
-function dateUpdate(event){
+function dateUpdate(update){
   actualValueDate.value
   console.log('aurevoir', actualValueDate)
   // console.log('SALUT', event.target.value)
@@ -50,13 +56,6 @@ function dateUpdate(event){
   // }
   // console.log('dateUpdate', typeof newValue)
 }
-
-
-// //V-MODEL - update
-// function dateUpdate(newValue){
-//   actualValueDate.value = newValue
-//   console.log('dateUpdate', typeof newValue)
-// }
 
 // const actualValueDate = computed({
 //   get(){
@@ -67,20 +66,10 @@ function dateUpdate(event){
 //   }
 // })
 
-function DATE (){
-//  tsMilliseconds = dayjsMixins.methods.unixSecondTs
-
-DateFinaleFormat = Number(datePicker.value = new Date())
-console.log('DAteFinalFormat', DateFinaleFormat)
-//  console.log('datePicker', datePicker.value)
-// console.log('TSUNIX', tsMilliseconds(dateUpdate()))
-  
-}
-
-//---------------------TS------------------------
+//------------------------TS--------------------------
 const tsMilliseconds = dayjsMixins.methods.unixSecondTs
 console.log('TSUNIX', tsMilliseconds(dateUpdate()))
-//-------------------METHODS----------------------
+//---------------------METHODS------------------------
 /**
  * @param {Object} datePicker
  * @function
@@ -92,8 +81,7 @@ if(datePicker.value != dateUpdate.newValue )
 newValue 
 }
 
-
-//-------------TODO-----------------------
+//---------------------TODO-------------------------
 //getDiff (date: unknown, comparing: unknown, unit: string) => number
 //Returns the difference between two dates in the specified unit.
 </script>
