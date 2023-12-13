@@ -1,7 +1,8 @@
 // Vuetify
 import "vuetify/styles";
 import { createVuetify } from "vuetify";
-import DayJsAdapter from '@date-io/dayjs'
+import DayJsAdapter from '@date-io/dayjs';
+
 
 
 import * as components from "vuetify/components";

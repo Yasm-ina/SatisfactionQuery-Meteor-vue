@@ -1,89 +1,98 @@
 <template>
-        <v-date-picker
-        v-model="actualValueDate" :color="datePickerColor" :is-date-filter-close="isDateFilterClose" 
-        :date="date" @update:model-value="dateUpdate">
-        </v-date-picker>
+    <v-date-picker v-model="date" 
+    @update:modelValue="date" 
+    :color="datePickerColor" 
+    :id-picker="idPicker" 
+    :is-date-filter-close="isDateFilterClose" 
+    :title="titlePicker" 
+    :is-date-begin-value-clicked="isDateBeginValueClicked" 
+    :is-date-end-value-clicked="isDateEndValueClicked">
+    </v-date-picker>
 </template>
 <script setup>
-import { ref, computed } from 'vue';
-import { useDate } from 'vuetify';
-import dayjsMixins from '../mixins/dayjs.js';
+import { computed } from 'vue';
+// import { useDate } from 'vuetify';
+// import dayjsMixins from '../mixins/dayjs.js';
 
-const props = defineProps ({
-  isDateFilterClose: {
-    type: Boolean,
-    default: false,
-    required: true, 
+const props = defineProps({
+  idPicker: {
+    type: Number,
+    default:0, 
+    required: true,
+  },
+  titlePicker: {
+    type: String,
+    default: '',
+    required: true,
   },
   datePickerColor: {
     type: String,
     default: '',
-    required: true
+    required: true,
   },
-  date : {
-    type: String,
+  isDateFilterClose: {
+    type: Boolean,
+    default: false,
+    required: true,
+  },
+  date: {
+    type: Object,
     default: new Date(),
-    required: true, 
+    required: false,
   },
-  id: {
-    type: Number,
-    default: 0,
-    required: true
+  // dateBeginArray: {
+  //   type: Array,
+  //   default: [],
+  //   required: false,
+  // },
+  // dateEndArray: {
+  //   type: Array,
+  //   default: [],
+  //   required: false,
+  isDateBeginValueClicked: {
+    type: Boolean,
+    default: false,
+    required: false,
+  },
+  isDateEndValueClicked: {
+    type: Boolean,
+    default: false,
+    required: false,
   },
 });
 
-//-----------------------DATA---------------------------
-// access VUETIFY - date composable 
-const accessDateVuetify = useDate()
 
-const actualValueDate = ref(new Date())
-console.log('datePicker', actualValueDate.value)
-// const dateFormatted = actualValueDate.value.format()
-// console.log('formated', dateFormatted)
-console.log('dateNOTconverted', accessDateVuetify.date(new Date()))
-
-
-const newValue = ref(dateUpdate)
-console.log('BRRR', newValue.ref)
-
-//V-MODEL - update
-function dateUpdate(update){
-  actualValueDate.value
-  console.log('aurevoir', actualValueDate)
-  // console.log('SALUT', event.target.value)
-  // actualValueDate.value = event
-  // if(event){
-  // }
-  // console.log('dateUpdate', typeof newValue)
-}
-
-// const actualValueDate = computed({
-//   get(){
-//     return datePicker.value
-//   },
-//   set(actualValue){
-//     emit('update:modelValue', actualValue)
-//   }
-// })
-
-//------------------------TS--------------------------
-const tsMilliseconds = dayjsMixins.methods.unixSecondTs
-console.log('TSUNIX', tsMilliseconds(dateUpdate()))
-//---------------------METHODS------------------------
 /**
- * @param {Object} datePicker
- * @function
- * function to convert dateSelected into milliseconds
- * example : Wed Dec 06 2023 15:34:49 GMT+0100 (is dateVuetify)
+ * @param {Date} date
+ * @function 
+ * if reactivity in date selected, 
+ * emits to menuHeader new value
  */
-function newSelectionInMillisecond (){
-if(datePicker.value != dateUpdate.newValue )
-newValue 
-}
+const emit = defineEmits(['update:modelValue'])
+const date = computed({
+  get(){
+    return props.modelValue
+    // return props.dateBegin, props.dateEnd
+  },
+  set(date) {
+    emit('update:modelValue', date)
+  }
+})
+
+//||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+//------------myAdapter----------------------
+// const tsMilliseconds = () => dayjsMixins.methods.unixMilliSecondTs(dateBegin.value)
+// console.log("BALOOO", dateBegin.value)
+// console.log('TSUNIX', tsMilliseconds(dateUpdate()))
+// const dateBeginConvert = tsMilliseconds(dateBegin.value)
+// console.log('dateBeginConvert', dateBeginConvert)
+// const dateEndConvert = tsMilliseconds(dateEnd.value)
+// console.log('dateEndConvert', dateEndConvert)
+
+
 
 //---------------------TODO-------------------------
 //getDiff (date: unknown, comparing: unknown, unit: string) => number
 //Returns the difference between two dates in the specified unit.
 </script>
-<style>
-</style>
+<style></style>

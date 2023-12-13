@@ -16,6 +16,8 @@ import { ref, computed } from 'vue'
 const iconColor = ref({ 'color': 'black' })
 const iconCalendarPath = ref(mdiCalendarMonthOutline);
 
+
+
 const dataWeekValues = ref({
        labels: ["très satisfait", "moyennement satisfait", "pas du tout satisfait"],
        datasets: [{
@@ -28,7 +30,8 @@ console.log('[StoreSide], [StatsReview], dataValueNumbers', dataWeekValues.value
 const dataOptions = computed(() => {
        return { height: `${2000}px`, position: 'relative', backgroundColor: 'rgb(255, 99, 132)' }
 })
-console.log('[StoreSide], [Stats], [graphOptions]', dataOptions)
+// console.log('[StoreSide], [Stats], [graphOptions]', dataOptions)
 </script>
+
 <style>
 </style>
