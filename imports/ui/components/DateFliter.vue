@@ -1,23 +1,19 @@
 <template>
-    <v-date-picker v-model="date" 
-    @update:modelValue="date" 
-    :color="datePickerColor" 
-    :id-picker="idPicker" 
-    :is-date-filter-close="isDateFilterClose" 
-    :title="titlePicker" 
-    :is-date-begin-value-clicked="isDateBeginValueClicked" 
-    :is-date-end-value-clicked="isDateEndValueClicked">
-    </v-date-picker>
+  <v-date-picker v-model="internalDate" @update:modelValue="updateDate" :color="datePickerColor" :id-picker="idPicker"
+    :is-date-filter-close="isDateFilterClose" :title="titlePicker" :date-begin="dateBegin" :date-end="dateEnd"
+    :date-begin-array="dateBeginArray" :date-end-array="dateEndArray"
+    :is-date-begin-clicked="isDateBeginClicked" :is-date-end-clicked="isDateEndClicked">
+  </v-date-picker>
 </template>
 <script setup>
-import { computed } from 'vue';
+import { watch, ref } from 'vue';
 // import { useDate } from 'vuetify';
 // import dayjsMixins from '../mixins/dayjs.js';
 
 const props = defineProps({
   idPicker: {
     type: Number,
-    default:0, 
+    default: undefined,
     required: true,
   },
   titlePicker: {
@@ -35,48 +31,55 @@ const props = defineProps({
     default: false,
     required: true,
   },
-  date: {
+   modelValue: {
     type: Object,
     default: new Date(),
     required: false,
   },
-  // dateBeginArray: {
-  //   type: Array,
-  //   default: [],
-  //   required: false,
-  // },
-  // dateEndArray: {
-  //   type: Array,
-  //   default: [],
-  //   required: false,
-  isDateBeginValueClicked: {
+  dateBegin: {
+    type: Object,
+    default: new Date(),
+    required: false
+  },
+  dateEnd: {
+    type: Object,
+    default: new Date(),
+    required: false
+  },
+  dateBeginArray: {
+    type: Array,
+    default: [],
+    required: false,
+  },
+  dateEndArray: {
+    type: Array,
+    default: [],
+    required: false,
+  },
+  isDateBeginClicked: {
     type: Boolean,
     default: false,
     required: false,
   },
-  isDateEndValueClicked: {
+  isDateEndClicked: {
     type: Boolean,
     default: false,
     required: false,
   },
 });
-
-
-/**
- * @param {Date} date
- * @function 
- * if reactivity in date selected, 
- * emits to menuHeader new value
- */
-const emit = defineEmits(['update:modelValue'])
-const date = computed({
-  get(){
-    return props.modelValue
-    // return props.dateBegin, props.dateEnd
-  },
-  set(date) {
-    emit('update:modelValue', date)
-  }
+const dateBegin = ref()
+console.log('[DateFilter] dateBegin', dateBegin.value)
+const dateEnd = ref()
+console.log('[DateFilter] dateEnd', dateEnd.value)
+const dateBeginArray = ref([])
+const dateEndArray = ref([])
+const internalDate = ref();
+const emitUpdate = defineEmits(['update:modelValue'])
+const updateDate = () => {
+  emitUpdate('update:modelValue', internalDate.value)
+}
+watch(()=> props.modelValue, (newValue) => {
+  internalDate.value = newValue
 })
 
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
