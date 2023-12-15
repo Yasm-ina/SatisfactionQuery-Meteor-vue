@@ -1,14 +1,21 @@
 <template>
-  <v-date-picker v-model="internalDate" @update:modelValue="updateDate" :color="datePickerColor" :id-picker="idPicker"
-    :is-date-filter-close="isDateFilterClose" :title="titlePicker" :date-begin="dateBegin" :date-end="dateEnd"
-    :date-begin-array="dateBeginArray" :date-end-array="dateEndArray"
-    :is-date-begin-clicked="isDateBeginClicked" :is-date-end-clicked="isDateEndClicked">
+  <v-date-picker v-model="internalDate" @update:modelValue="updateDate" 
+  :color="datePickerColor" 
+  :id-picker="idPicker"
+  :is-date-filter-close="isDateFilterClose" 
+  :title="titlePicker" 
+  :date-begin="dateBegin" 
+  :date-end="dateEnd"
+  :date-begin-array="dateBeginArray" 
+  :date-end-array="dateEndArray"
+  :is-date-begin-clicked="isDateBeginClicked" 
+  :is-date-end-clicked="isDateEndClicked">
   </v-date-picker>
 </template>
 <script setup>
 import { watch, ref } from 'vue';
 // import { useDate } from 'vuetify';
-// import dayjsMixins from '../mixins/dayjs.js';
+import dayjsMixins from '../mixins/dayjs.js';
 
 const props = defineProps({
   idPicker: {
@@ -67,35 +74,29 @@ const props = defineProps({
     required: false,
   },
 });
+
 const dateBegin = ref()
-console.log('[DateFilter] dateBegin', dateBegin.value)
 const dateEnd = ref()
-console.log('[DateFilter] dateEnd', dateEnd.value)
 const dateBeginArray = ref([])
 const dateEndArray = ref([])
 const internalDate = ref();
+
+
+//----------------------EMITS-------------------------
 const emitUpdate = defineEmits(['update:modelValue'])
+
+
 const updateDate = () => {
   emitUpdate('update:modelValue', internalDate.value)
 }
+
+
 watch(()=> props.modelValue, (newValue) => {
   internalDate.value = newValue
+  if(newValue){
+  const dateMilliSeconds = () => dayjsMixins.methods.unixMilliSecondTs(newValue)
+  return dateMilliSeconds(newValue) ,console.log('conversionDateMilliSec', dateMilliSeconds(newValue))
+  }
 })
-
-//||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-//------------myAdapter----------------------
-// const tsMilliseconds = () => dayjsMixins.methods.unixMilliSecondTs(dateBegin.value)
-// console.log("BALOOO", dateBegin.value)
-// console.log('TSUNIX', tsMilliseconds(dateUpdate()))
-// const dateBeginConvert = tsMilliseconds(dateBegin.value)
-// console.log('dateBeginConvert', dateBeginConvert)
-// const dateEndConvert = tsMilliseconds(dateEnd.value)
-// console.log('dateEndConvert', dateEndConvert)
-
-
-
-//---------------------TODO-------------------------
-//getDiff (date: unknown, comparing: unknown, unit: string) => number
-//Returns the difference between two dates in the specified unit.
 </script>
 <style></style>

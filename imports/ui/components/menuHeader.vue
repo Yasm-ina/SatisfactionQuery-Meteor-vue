@@ -17,27 +17,27 @@
               <v-container>
                      <v-row no-gutters class="justify-center">
                             <v-col cols="6">
-                                   <DateFilter class="ma-2 pa-2" v-model="dateBegin" 
-                                   @update:modelValue="handleVModel(newDateBegin)"
+                                   <DateFilter class="ma-2 pa-2" v-model="dateBegin" @update:modelValue="handleVModel"
                                           :date-begin-array="dateBeginArray"
                                           :date-picker-color="pickerBeginDateAttrs.datePickerColor"
                                           :id-picker="pickerBeginDateAttrs.idPicker"
                                           :title-picker="pickerBeginDateAttrs.titlePicker" v-if="isDateFilterClose"
                                           :is-date-filter-close="isDateFilterClose = true"
-                                          :is-date-begin-clicked="isDateBeginClicked"/>
-                                   
+                                          :is-date-begin-clicked="isDateBeginClicked"
+                                          @update:dateBeginArray="emitArraysUpdate"/>
+
 
                             </v-col>
                             <v-col cols="6">
-                                   <DateFilter class="ma-2 pa-2" v-model="dateEnd" 
-                                   @update:modelValue="handleVModel(newDateEnd)"
+                                   <DateFilter class="ma-2 pa-2" v-model="dateEnd" @update:modelValue="handleVModel"
                                           :date-end-array="dateEndArray"
                                           :date-picker-color="pickerEndDateAttrs.datePickerColor"
                                           :id-picker="pickerEndDateAttrs.idPicker"
                                           :title-picker="pickerEndDateAttrs.titlePicker" v-if="isDateFilterClose"
                                           :is-date-filter-close="isDateFilterClose = true"
-                                          :is-date-end-value-clicked="isDateEndClicked"/>
-                                
+                                          :is-date-end-value-clicked="isDateEndClicked"
+                                          @update:dateEndArray="emitArraysUpdate" />
+
                             </v-col>
                      </v-row>
               </v-container>
@@ -59,75 +59,92 @@ const props = defineProps({
               default: '',
               required: false
        },
+       dateBeginArray: {
+              type: Array,
+              default: [],
+              required: true
+       },
+       dateEndArray: {
+              type: Array,
+              default: [],
+              required: true
+       },
 })
-//-------------------------------------DATA--------------------------------------
 //-----------------------------------PICKERS-------------------------------------
-const pickerBeginDateAttrs = { idPicker: 0 ,titlePicker: 'début', datePickerColor: 'lime-lighten-2' }
+const pickerBeginDateAttrs = { idPicker: 0, titlePicker: 'début', datePickerColor: 'lime-lighten-2' }
 const pickerEndDateAttrs = { idPicker: 1, titlePicker: 'fin', datePickerColor: 'light-green-lighten-2' }
 //-------------------------BUTTON DISPLAY DATEPICKERS----------------------------
 const isDateFilterClose = ref()
 
 //---------------------------pickers initialisation------------------------------
 const dateBegin = ref(new Date())
+console.log('dateBegin', dateBegin.value)
 const dateEnd = ref(new Date())
 const isDateBeginClicked = ref(false)
 const isDateEndClicked = ref(false)
 //------------------------------dates arrays ------------------------------------
 const dateBeginArray = ref([])
-console.log('dateBeginArray', dateBeginArray.value)
 const dateEndArray = ref([])
-console.log('dateEndArray', dateEndArray.value)
 //-----------------------------pickers reactivity--------------------------------
-const newDateBegin = ref()
-console.log('newDateBeginValue', newDateBegin.value)
-const newDateEnd = ref()
-console.log('newDateEndValue', newDateEnd.value)
-
+// const newDateBegin = ref()
+// const newDateEnd = ref()
 //----------------------------Picker Array reactivity----------------------------
 /**
  * @argument {Object} newDateBegin
  * @function
- * Watch IF REACTIVITY of dateBegin
+ * Watch REACTIVITY of dateBegin
+ * if catch reactivity, call handleVMODEL to change value to click = true
+ * add date to array 
  */
-watch(dateBegin, (newDateBegin)=> {
-       console.log('newDateBegin',newDateBegin)
-       handleVModel(newDateBegin)
+watch(dateBegin, (newDateBegin) => {
+       console.log('[WATCHER], newDateBegin', newDateBegin)
+       if (newDateBegin) {
+              handleVModel(newDateBegin)
+              dateBeginArray.value.push(newDateBegin);
+              console.log('dateBeginArray', dateBeginArray.value)
+              console.log('newDateBegin', newDateBegin)
+       }
 });
 /**
  * @argument {Object} newDateEnd
  * @function
- * Watch IF REACTIVITY of dateEnd
+ * Watch REACTIVITY of dateEnd
+ * if catch reactivity, call handleVMODEL to change value to click = true
+ * add date to array 
  */
-watch(dateEnd, (newDateEnd)=> {
-       console.log('newDateEnd',newDateEnd)
-       handleVModel(newDateEnd)
+watch(dateEnd, (newDateEnd) => {
+       console.log('[WATCHER], newDateEnd', newDateEnd)
+       if (newDateEnd) {
+              handleVModel(newDateEnd)
+              dateEndArray.value.push(newDateEnd);
+              console.log('dateEndArray', dateEndArray.value)
+              console.log('newDateEndValue', newDateEnd)
+       }
 });
 
+
+const emitArraysUpdate = defineEmits(['update:dateBeginArray', 'update:dateEndArray'])
 /**
- * @argument {Number} vModelId - v-model id
- * @argument {Object} newDateBegin - 
+ * 
+ * @argument {Object} newDate - new date selected in dateBegin or dateEnd
  * @function
  * @author Yasmina Boumaraf
- * function that is called if WATCHERS see reactivity: 
- * 2) take id v-model 
- * 3) IF CHANGE targeted, value clicked = true (initial = false)
- * 3) INSERT new date in array 
+ * function that: 
+ * 1) take id v-model 
+ * 2) IF vmodel clicked = true
  */
-function handleVModel(newDateBegin, newDateEnd){
-       if ((newDateBegin && newDateEnd)|| (newDateBegin|| newDateEnd)) {
-               const vModelId = isDateBeginClicked.value ? pickerBeginDateAttrs.idPicker : pickerEndDateAttrs.idPicker;
+function handleVModel(newDate) {
+       console.log('handle parent', newDate)
+       if (newDate) {
+              const vModelId = isDateBeginClicked.value ? pickerBeginDateAttrs.idPicker : pickerEndDateAttrs.idPicker;
               switch (vModelId) {
-                     case 0: 
+                     case 0:
                             isDateBeginClicked.value = true
-                            dateBeginArray.value.push(newDateBegin.value);
-                            console.log('dateBeginArray', dateBeginArray.value)
-                            console.log('newDateBeginValue', newDateBegin.value)
+                            emitArraysUpdate('update:dateBeginArray', dateBeginArray.value);
                             break;
                      case 1:
                             isDateBeginClicked.value = true
-                            dateEndArray.push(newDateEnd.value);
-                            console.log('dateEndArray', dateEndArray.value)
-                            console.log('newDateEnd', newDateEnd.value)
+                            emitArraysUpdate('update:dateEndArray', dateEndArray.value)
                             break;
               }
        }

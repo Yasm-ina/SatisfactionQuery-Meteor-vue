@@ -5,7 +5,7 @@
 </template>
      
 <script setup>
-// //chartjs
+
 import {
   Chart as ChartJS,
   Title,
